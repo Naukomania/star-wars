@@ -1,0 +1,163 @@
+div#stage {
+	z-index: 2;
+	opacity: 0;
+	margin: 0 auto;
+	border: 1px solid #eee;
+	width: 100%;
+	height: 500px;
+	background-color: #eee;
+}
+
+#luke {
+	z-index: 3;
+}
+
+header .container {
+	background: #29467F;
+
+}
+
+header .logo-container {
+	background-color: #000;
+	height: 150px;
+}
+#logo, #logo-right {
+	width: 170px;
+	height: 100px;
+	background: black;
+	margin: 0 ;
+}
+#logo {
+	float: left;
+}
+#logo-right {
+	float: right;
+}
+#logo img, #logo-right img {
+	height: 100%;
+	width: 150px;
+	margin-top: 20px;
+	display: block;
+}
+
+#logo img {
+	margin-left: 12%;
+}
+
+#logo-right img {
+	margin-right:12%;
+}
+.menu ul li {
+	display: inline-block;
+	font-size: 2em;
+	padding: 10px 40px;
+}
+.menu ul li a {
+	color: #60B9CE;
+}
+
+.menu ul li a:hover {
+	color: white;
+}
+.menu ul li a {
+	text-decoration: none;
+}
+.menu nav ul {
+	text-align: center;
+	margin-bottom: 0px;
+	padding-left: 0;
+}
+
+.menu .middle-li {
+	border-left: 4px solid black;
+	border-right: 4px solid black;
+}
+
+.hidden {
+	display: none;
+}
+
+.characters img {
+	height: 100%;
+	margin-top: 20px;
+	margin-left: 30%;
+}
+
+.characters {
+	height: 100px;
+	width: 300px;
+	float: left;
+}
+
+.top-container img {
+
+	width: 100%;
+}
+
+header .top-container {
+	background: black;
+}
+
+.inner-movies img.img-responsive {
+  width: 100%;
+  height: 312px;
+}
+
+.inner-movies .stage-label {
+  position: absolute;
+  width: 150px; 
+  color: #333;
+  font-weight: bold;
+  font-size: 2.00em;
+  left: 50%;
+  padding: 10px;
+  margin-left: -60px;
+  top: 45%;
+  background-color:rgba(255,255,255,0.5);
+}
+
+.inner-movies a:hover .stage-label {
+  background-color:rgba(0,0,0,0.5);
+  color:  #fff;
+}
+
+#content {
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
+
+#content img {
+	max-width: 100%;
+}
+
+.character {
+	position: absolute;
+	z-index: 1;
+}
+#luke {
+	left: -300px;
+	top: 0px;
+}
+
+#djeday {
+	right: -300px;
+	top: 0px;
+}
+.character-wrapper {
+	position: absolute;
+	width: 100%;
+	height: 150%;
+	overflow: hidden;
+	top: 0px;
+	z-index: -1;
+}
+
+.heroes {
+	font-size: 50px;
+	margin: 0 auto;
+	width: 500px;
+}
+
+#c3po {
+	cursor: move;
+}

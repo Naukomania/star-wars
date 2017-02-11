@@ -161,3 +161,15 @@ header .top-container {
 #c3po {
 	cursor: move;
 }
+
+.portfolio-item {
+	margin-bottom: 20px;
+}
+
+#stage2 {
+	height: 400px;
+}
+
+#darklord {
+	opacity: 0;
+}

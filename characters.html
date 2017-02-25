@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
+     <link rel="stylesheet" type="text/css" href="css/characters.css">
+</head> 
+<body>
+    <section class="">
+        <div class="container">
+            <div id="stage">
+                
+            </div>
+        </div>
+    </section>
+    <script type="text/javascript" src="vendor/jquery/jquery.js"></script>
+    <script type="text/javascript" src="vendor/bootstrap/js/bootstrap.js"></script>
+    <script src="js/characters.js"></script>
+    <script>
+        var stage, luke, c3po, darklord, darklord2;
+        $(document).ready(function(){
+            stage= new Stage('stage');
+
+            luke = new Luke({
+                posY: 200,
+                posX: 500
+            });
+            c3po = new C3po({
+                posY: 100,
+                posX: 700
+            });
+            darklord = new Darklord({
+                posY:500,
+                posX: 600
+            });
+            darklord2 = new Darklord({}, 'darklord2');
+            stage.addCharacter(luke);
+            stage.addCharacter(c3po);
+            stage.addCharacter(darklord);
+            stage.addCharacter(darklord2);
+
+            luke.updatePosition();
+            darklord.updatePosition();
+            c3po.updatePosition();
+            $(document).on('keydown', function(e){
+                console.log(e.keyCode);
+                switch(event.keyCode) {
+                    case 87:  // w
+                        luke.posY-=10;
+                        break;
+                    case 83: // s
+                        luke.posY+=10;
+                        break;
+                    case 65: // a
+                        luke.posX-=10;
+                        break;
+                    case 68: // d
+                        luke.posX+=10;
+                        break;
+                }
+            });
+            setInterval(function(){
+                luke.updatePosition();
+            },50);
+        });
+
+
+    </script>
+</body>
+</html>

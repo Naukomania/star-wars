@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/characters.css">
+</head> 
+<body>
+
+<section class="">
+    <div class="container">
+        <div id="place"></div>
+    </div>
+</section>
+    <script type="text/javascript" src="vendor/jquery/jquery.js"></script>
+    <script type="text/javascript" src="vendor/bootstrap/js/bootstrap.js"></script>
+    <script src="js/characters.js"></script>
+    <script>
+    var stage, luke;
+        $(document).ready(function(){
+            stage= new Stage('place');
+
+            luke = new Luke({
+                posY: 200,
+                posX: 500
+            });
+            stage.addCharacter(luke);
+
+            luke.updatePosition();
+            
+            $(document).on('keydown', function(e){
+                console.log(e.keyCode);
+                switch(event.keyCode) {
+                    case 87:  // w
+                        luke.posY-=10;
+                        break;
+                    case 83: // s
+                        luke.posY+=10;
+                        break;
+                    case 65: // a
+                        luke.posX-=10;
+                        break;
+                    case 68: // d
+                        luke.posX+=10;
+                        break;
+                }
+            });
+            setInterval(function(){
+                luke.updatePosition();
+            },50);
+        });
+
+
+    </script>
+</body>
+</html>

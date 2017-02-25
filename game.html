@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Game</title>
+    <link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="css/characters.css">
+    <script type="text/javascript" src="vendor/jquery/jquery.js"></script>
+    <script type="text/javascript" src="vendor/bootstrap/js/bootstrap.js"></script>
+    <script type="text/javascript" src="js/characters.js"></script>
+</head>
+<body class="fullscreen">
+    <section class="">
+        <div class="container">
+           <div id="stage">
+           </div>
+        </div>
+    </section>
+    <script type="text/javascript">
+$( document ).ready(function() {
+    stage= new Stage('stage');
+    rightBar = new RightBar(stage);
+    luke = new Luke({});
+    luke.registerKeys();
+    stage.addCharacter(luke);
+    door = new Door(stage);
+    sword = new Sword(stage);
+    setInterval(function(){
+        luke.updatePosition();
+        if (luke.jqEl.offset().top+50>door.jqEl.offset().top) {
+            if (luke.jqEl.offset().left+150>door.jqEl.offset().left){
+                location.href="http://star-wars.loc/index.html";
+            } 
+        }
+         if (luke.jqEl.offset().top+50>sword.jqEl.offset().top) {
+            if (luke.jqEl.offset().left+150>sword.jqEl.offset().left){
+                rightBar.jqEl.html('sword');
+                sword.jqEl.remove();
+            } 
+        }
+    },50);
+});      
+</script>
+</body>
+</html>

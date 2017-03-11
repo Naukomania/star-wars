@@ -1,5 +1,6 @@
 function Stage (id) {
     this.jqEl=$('#'+id);
+    this.rightBar = new RightBar(this);
     this.addCharacter= function(character){
         this.jqEl.append(character.getTag());
         character.storeTag();
@@ -73,16 +74,56 @@ function RightBar(stage) {
     stage.jqEl.append('<div id="right-bar"></div>');
     this.jqEl=$('#right-bar');
     this.stage=stage;
+    this.items = {
+        sword: 0,
+        keyVal: 0
+    };
+    this.addItem = function(item) {
+        this.items[item] = 1;
+        localStorage[item] = 1;
+        this.update();
+    }
+    this.update = function() {
+        this.jqEl.html('');
+        if (this.items['sword']) {
+            this.jqEl.append('<p>sword</p>');
+        }
+        if (this.items['keyVal']) {
+            this.jqEl.append('<p>key</p>');
+        }
+    }
+    if (localStorage['sword']) {
+        this.items['sword'] = localStorage['sword'];
+    }
+     if (localStorage['keyVal']) {
+        this.items['keyVal'] = localStorage['keyVal'];
+    }
+    this.update();
 }
 
 function Door(stage){
-    stage.jqEl.append('<div id="door"></div');
+    stage.jqEl.append('<div id="door"></div>');
     this.jqEl=$('#door');
     this.stage=stage;
 }
 
 function Sword(stage){
-    stage.jqEl.append('<div id="sword"></div');
+    stage.jqEl.append('<div id="sword"></div>');
     this.jqEl=$('#sword');
     this.stage=stage;
+}
+
+function Key(stage){
+    stage.jqEl.append('<div id="key"></div>');
+    this.jqEl=$('#key');
+    this.stage=stage;
+}
+
+function compare(offset1, offset2) {
+    if (offset1.top+50>offset2.top && offset1.top-50<offset2.top) {
+        if (offset1.left+150>offset2.left && offset1.left-50<offset2.left){
+            return true;
+        } 
+    }
+    return false;
 }

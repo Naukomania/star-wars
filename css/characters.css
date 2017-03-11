@@ -14,15 +14,17 @@ body.fullscreen section .container #stage {
 body.fullscreen section .container #stage {
     background: #eee;
     position: relative;
+    overflow: hidden;
 }
 
 #right-bar {
     position: absolute;
     width: 100px;
-    height: 30px;
+    min-height: 30px;
     border: 3px solid black;
     top: 20px;
     right: 20px;
+    padding: 5px;
 }
 
 #door {
@@ -42,4 +44,23 @@ body.fullscreen section .container #stage {
     bottom: 300px;
     right: 600px;
     background-image: url(../images/sword.png); 
+}
+
+.start-game {
+    position: absolute;
+    width: 100px;
+    left: 50%;
+    top: 50%;
+    margin-left: -50px;
+    text-align: center; 
+    z-index: 1;
+}
+
+#key {
+    background-image: url(../images/key.png);
+    position: absolute;
+    width: 212px;
+    height: 80px;
+    bottom:118px;
+    right: 500px;
 }

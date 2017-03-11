@@ -12,6 +12,9 @@
 <body class="fullscreen">
     <section class="">
         <div class="container">
+            <div class="start-game">
+                <div class="btn btn-success btn-lg">Start</div>
+            </div>
            <div id="stage">
            </div>
         </div>
@@ -19,26 +22,33 @@
     <script type="text/javascript">
 $( document ).ready(function() {
     stage= new Stage('stage');
-    rightBar = new RightBar(stage);
-    luke = new Luke({});
-    luke.registerKeys();
-    stage.addCharacter(luke);
-    door = new Door(stage);
-    sword = new Sword(stage);
-    setInterval(function(){
-        luke.updatePosition();
-        if (luke.jqEl.offset().top+50>door.jqEl.offset().top) {
-            if (luke.jqEl.offset().left+150>door.jqEl.offset().left){
+    $('.start-game .btn').on('click', function(){
+        level1();
+        $(this).remove()
+    });
+    function level1(){
+        key = new Key(stage);
+        luke = new Luke({});
+        luke.registerKeys();
+        stage.addCharacter(luke);
+        door = new Door(stage);
+        sword = new Sword(stage);
+        setInterval(function(){
+            luke.updatePosition();
+            if (compare(luke.jqEl.offset(), door.jqEl.offset())) {
                 location.href="http://star-wars.loc/index.html";
-            } 
-        }
-         if (luke.jqEl.offset().top+50>sword.jqEl.offset().top) {
-            if (luke.jqEl.offset().left+150>sword.jqEl.offset().left){
-                rightBar.jqEl.html('sword');
+            }
+            if (compare(luke.jqEl.offset(), sword.jqEl.offset())) {
+                stage.rightBar.addItem('sword');
                 sword.jqEl.remove();
-            } 
-        }
-    },50);
+            }
+            if (compare(luke.jqEl.offset(), key.jqEl.offset())) {
+                stage.rightBar.addItem('keyVal');
+                key.jqEl.remove();
+            }
+        },50);
+    };
+
 });      
 </script>
 </body>

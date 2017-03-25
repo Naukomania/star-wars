@@ -1,15 +1,18 @@
 function Stage (id) {
     this.jqEl=$('#'+id);
     this.rightBar = new RightBar(this);
+    this.hero=null;
     this.addCharacter= function(character){
         this.jqEl.append(character.getTag());
         character.storeTag();
+        this.hero=character;
+        this.rightBar.update();
     }
 }
 
 function Luke (settings) {
     var me = this;
-    this.imgSrc='images/luke.png';
+    this.imgSrc='images/luke-empty.png';
     this.id='luke';
 
     this.posX = settings.posX ? settings.posX : 0;
@@ -74,6 +77,13 @@ function RightBar(stage) {
     stage.jqEl.append('<div id="right-bar"></div>');
     this.jqEl=$('#right-bar');
     this.stage=stage;
+    this.keyExist= function(item){
+        if (this.items[item]){
+            return true;
+        }else{
+            return false;
+        }
+    }
     this.items = {
         sword: 0,
         keyVal: 0
@@ -83,20 +93,32 @@ function RightBar(stage) {
         localStorage[item] = 1;
         this.update();
     }
+    this.removeItem = function(item){
+        this.items[item] = 0;
+        localStorage[item] = 0;
+        this.update();
+    }
     this.update = function() {
         this.jqEl.html('');
         if (this.items['sword']) {
+            if (this.stage.hero) {
+                this.stage.hero.jqEl.css('background-image', 'url(images/luke.png)');
+            }
             this.jqEl.append('<p>sword</p>');
+        }else{
+            if (this.stage.hero) {
+                this.stage.hero.jqEl.css('background-image', 'url(images/luke-empty.png)');
+            }
         }
         if (this.items['keyVal']) {
             this.jqEl.append('<p>key</p>');
         }
     }
     if (localStorage['sword']) {
-        this.items['sword'] = localStorage['sword'];
+        this.items['sword'] = parseInt(localStorage['sword']);
     }
      if (localStorage['keyVal']) {
-        this.items['keyVal'] = localStorage['keyVal'];
+        this.items['keyVal'] = parseInt(localStorage['keyVal']);
     }
     this.update();
 }
@@ -105,6 +127,11 @@ function Door(stage){
     stage.jqEl.append('<div id="door"></div>');
     this.jqEl=$('#door');
     this.stage=stage;
+    this.open = function() {
+        this.jqEl.css('background-image', 'url(images/door-opened.png)');
+        this.stage.rightBar.removeItem("keyVal");
+
+    }
 }
 
 function Sword(stage){
@@ -127,3 +154,4 @@ function compare(offset1, offset2) {
     }
     return false;
 }
+

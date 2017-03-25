@@ -15,41 +15,47 @@
             <div class="start-game">
                 <div class="btn btn-success btn-lg">Start</div>
             </div>
-           <div id="stage">
-           </div>
+            <div id="stage">
+            </div>
         </div>
     </section>
     <script type="text/javascript">
-$( document ).ready(function() {
-    stage= new Stage('stage');
-    $('.start-game .btn').on('click', function(){
-        level1();
-        $(this).remove()
-    });
-    function level1(){
-        key = new Key(stage);
-        luke = new Luke({});
-        luke.registerKeys();
-        stage.addCharacter(luke);
-        door = new Door(stage);
-        sword = new Sword(stage);
-        setInterval(function(){
-            luke.updatePosition();
-            if (compare(luke.jqEl.offset(), door.jqEl.offset())) {
-                location.href="http://star-wars.loc/index.html";
-            }
-            if (compare(luke.jqEl.offset(), sword.jqEl.offset())) {
-                stage.rightBar.addItem('sword');
-                sword.jqEl.remove();
-            }
-            if (compare(luke.jqEl.offset(), key.jqEl.offset())) {
-                stage.rightBar.addItem('keyVal');
-                key.jqEl.remove();
-            }
-        },50);
-    };
+        $( document ).ready(function() {
+            stage= new Stage('stage');
+            $('.start-game .btn').on('click', function(){
+                level1();
+                $(this).remove()
+            });
+            function level1(){
+                key = new Key(stage);
+                luke = new Luke({});
+                luke.registerKeys();
+                stage.addCharacter(luke);
+                door = new Door(stage);
+                sword = new Sword(stage);
+                setInterval(function(){
+                    luke.updatePosition();
 
-});      
-</script>
+                    if (compare(luke.jqEl.offset(), door.jqEl.offset())) {
+                        if (stage.rightBar.keyExist('keyVal')){
+                            door.open();
+                            setTimeout(function(){
+                                location.href="http://star-wars.loc/game2.html";
+                            }, 1500); 
+                        }             
+                    }
+                    if (compare(luke.jqEl.offset(), sword.jqEl.offset())) {
+                        stage.rightBar.addItem('sword');
+                        sword.jqEl.remove();
+                    }
+                    if (compare(luke.jqEl.offset(), key.jqEl.offset())) {
+                        stage.rightBar.addItem('keyVal');
+                        key.jqEl.remove();
+                    }
+                },50);
+            };
+
+        });      
+    </script>
 </body>
 </html>

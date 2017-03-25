@@ -31,7 +31,6 @@ body.fullscreen section .container #stage {
     position: absolute;
     width: 200px;
     height: 300px;
-    border: 3px solid black;
     bottom: 20px;
     right: 20px;
     background-image: url(../images/door.png); 
@@ -39,11 +38,11 @@ body.fullscreen section .container #stage {
 
 #sword {
     position: absolute;
-    width: 22px;
-    height: 99px;
+    width: 200px;
+    height: 139px;
     bottom: 300px;
     right: 600px;
-    background-image: url(../images/sword.png); 
+    background-image: url(../images/blade.png); 
 }
 
 .start-game {

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Game</title>
+    <link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="css/characters.css">
+    <script type="text/javascript" src="vendor/jquery/jquery.js"></script>
+    <script type="text/javascript" src="vendor/bootstrap/js/bootstrap.js"></script>
+    <script type="text/javascript" src="js/characters.js"></script>
+</head>
+<body class="fullscreen">
+    <section class="">
+        <div class="container">
+            <div class="start-game">
+                <div class="btn btn-success btn-lg">Start</div>
+            </div>
+           <div id="stage">
+           </div>
+        </div>
+    </section>
+    <script type="text/javascript">
+$( document ).ready(function() {
+    stage= new Stage('stage');
+    $('.start-game .btn').on('click', function(){
+        level2();
+        $(this).remove()
+    });
+    function level2(){
+        key = new Key(stage);
+        luke = new Luke({});
+        luke.registerKeys();
+        stage.addCharacter(luke);
+        door = new Door(stage);
+        setInterval(function(){
+            luke.updatePosition();
+            if (compare(luke.jqEl.offset(), door.jqEl.offset())) {
+                location.href="http://star-wars.loc/game3.html";
+            }
+            if (compare(luke.jqEl.offset(), key.jqEl.offset())) {
+                stage.rightBar.addItem('keyVal');
+                key.jqEl.remove();
+            }
+        },50);
+    };
+
+});      
+</script>
+</body>
+</html>

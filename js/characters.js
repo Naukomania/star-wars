@@ -1,3 +1,6 @@
+/**
+ * @var string id идентификатор html-контейнера сцены
+ */
 function Stage (id) {
     this.jqEl=$('#'+id);
     this.rightBar = new RightBar(this);
@@ -6,6 +9,11 @@ function Stage (id) {
         this.jqEl.append(character.getTag());
         character.storeTag();
         this.hero=character;
+        this.rightBar.update();
+    }
+    this.addPerson = function (character){
+        this.jqEl.append(character.getTag());
+        character.storeTag();
         this.rightBar.update();
     }
 }
@@ -54,8 +62,27 @@ function Darklord (settings, id) {
     this.posX = settings.posX ? settings.posX : 0;
     this.posY = settings.posY ? settings.posY : 0;
     this.__proto__ = new Person(this);
+    var me = this;
     if (id) {
         this.id=id;
+    }
+    this.startVetricalAnimation = function(settings){
+        var direction = 1; 
+        setInterval(function(){
+            console.log(this.posY);
+            if(direction == 1){
+                me.posY += 10;
+            } else{
+                me.posY -= 10;
+            }
+            if (me.posY<settings.topY){
+                direction = 1;
+            }
+            if (me.posY>settings.bottomY) {
+                direction = 0;
+            }
+
+        },100)
     }
 }
 
@@ -102,12 +129,12 @@ function RightBar(stage) {
         this.jqEl.html('');
         if (this.items['sword']) {
             if (this.stage.hero) {
-                this.stage.hero.jqEl.css('background-image', 'url(images/luke.png)');
+                this.stage.hero.jqEl.attr('src', 'images/luke.png');
             }
             this.jqEl.append('<p>sword</p>');
         }else{
             if (this.stage.hero) {
-                this.stage.hero.jqEl.css('background-image', 'url(images/luke-empty.png)');
+                this.stage.hero.jqEl.attr('src', 'images/luke-empty.png');
             }
         }
         if (this.items['keyVal']) {
@@ -123,14 +150,17 @@ function RightBar(stage) {
     this.update();
 }
 
-function Door(stage){
+function Door(stage, settings){
     stage.jqEl.append('<div id="door"></div>');
     this.jqEl=$('#door');
     this.stage=stage;
+    if(settings){
+        this.jqEl.css("top", settings.posY+'px');
+        this.jqEl.css("left", settings.posX+'px');
+    }
     this.open = function() {
         this.jqEl.css('background-image', 'url(images/door-opened.png)');
         this.stage.rightBar.removeItem("keyVal");
-
     }
 }
 
@@ -140,10 +170,14 @@ function Sword(stage){
     this.stage=stage;
 }
 
-function Key(stage){
+function Key(stage, settings){
     stage.jqEl.append('<div id="key"></div>');
     this.jqEl=$('#key');
     this.stage=stage;
+    if(settings){
+        this.jqEl.css("top", settings.posY+'px');
+        this.jqEl.css("left", settings.posX+'px');
+    }
 }
 
 function compare(offset1, offset2) {

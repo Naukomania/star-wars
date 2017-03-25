@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Game</title>
+    <link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="css/characters.css">
+    <script type="text/javascript" src="vendor/jquery/jquery.js"></script>
+    <script type="text/javascript" src="vendor/bootstrap/js/bootstrap.js"></script>
+    <script type="text/javascript" src="js/characters.js"></script>
+</head>
+<body class="fullscreen">
+    <section class="">
+        <div class="container">
+           <div id="stage">
+           </div>
+        </div>
+    </section>
+    <script type="text/javascript">
+$( document ).ready(function() {
+    var stage = new Stage('stage'), 
+        hero = new Luke({posX:200, posY:300}),
+        keyObj = new Key(stage, {posX:500, posY:200})
+        door = new Door(stage, {posX:800, posY:200})
+        darkLord = new Darklord({posX: 700, posY:200});
+    stage.addCharacter(hero);
+    stage.addPerson(darkLord);
+    hero.jqEl.css('height', '150px');
+    darkLord.jqEl.css('height', '160px');
+    keyObj.jqEl.css('width', '75px');
+    keyObj.jqEl.css('background-size', '100%');
+    door.jqEl.css('width', '100px');
+    door.jqEl.css('background-size', '100%');
+    darkLord.startVetricalAnimation({topY: 50, bottomY:450});
+    hero.registerKeys();   
+    setInterval(function(){
+        hero.updatePosition();
+        darkLord.updatePosition();
+        if (compare(hero.jqEl.offset(), keyObj.jqEl.offset())){
+            stage.rightBar.addItem('keyVal');
+            keyObj.jqEl.remove();
+        }
+        if (compare(hero.jqEl.offset(),darkLord.jqEl.offset())) {
+            hero.posX = 50;
+            hero.posY = 200;
+            alert('Потрачено')
+        }
+        if (compare(hero.jqEl.offset(), door.jqEl.offset())){
+            if (stage.rightBar.keyExist('keyVal')) {
+                door.open();
+                location='game.html';
+            }
+        }
+    },10);
+
+
+});      
+</script>
+</body>
+</html>

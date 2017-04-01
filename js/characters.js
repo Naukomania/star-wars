@@ -5,6 +5,9 @@ function Stage (id) {
     this.jqEl=$('#'+id);
     this.rightBar = new RightBar(this);
     this.hero=null;
+    this.reload= function(){
+        this.jqEl.html('');
+    };
     this.addCharacter= function(character){
         this.jqEl.append(character.getTag());
         character.storeTag();
@@ -41,6 +44,47 @@ function Luke (settings) {
                 break;
                 case 68: // d
                 me.posX+=10;
+                break;
+            }
+        });
+    }
+}
+function Shooter (settings) {
+    var me = this;
+    var shoots = 0;
+    this.imgSrc='images/shooter.png';
+    this.id='shooter';
+
+    this.posX = settings.posX ? settings.posX : 0;
+    this.posY = settings.posY ? settings.posY : 0;
+
+    this.shoot = function(){ // хранить сцену в свойстве
+        shoots++;
+        var bullet = new Bullet({posX: me.posX+250, posY:me.posY+130}, "shoot" + shoots);
+        stage.addPerson(bullet);
+        bullet.updatePosition();
+        bullet.startHorisontAnimation({leftX:me.posX, rightX:900});
+        console.log('shoot');
+    }
+    this.__proto__ = new Person(this);
+    this.registerKeys=function() {
+        $(document).on('keydown', function(e){
+            switch(event.keyCode) {
+
+                case 87:  // w
+                me.posY-=10;
+                break;
+                case 83: // s
+                me.posY+=10;
+                break;
+                case 65: // a
+                me.posX-=10;
+                break;
+                case 68: // d
+                me.posX+=10;
+                break;
+                case 32: // space
+                me.shoot();
                 break;
             }
         });
@@ -189,3 +233,35 @@ function compare(offset1, offset2) {
     return false;
 }
 
+function Bullet (settings, id){
+    this.imgSrc='images/bullet.png';
+    this.id='bullet';
+    this.posX = settings.posX ? settings.posX : 0;
+    this.posY = settings.posY ? settings.posY : 0;
+    this.__proto__ = new Person(this);
+    var me = this;
+    if (id) {
+        this.id=id;
+    }
+    this.startHorisontAnimation = function(settings){
+        var direction = 1; 
+        var id = setInterval(function(){
+            console.log(me.posX);
+            me.updatePosition();
+            if(direction == 1){
+                me.posX += 10;
+            } else{
+                me.posX -= 10;
+            }
+            if (me.posX<settings.leftX){
+                direction = 1;
+            }
+            if (me.posX>settings.rightX) {
+                direction = 0;
+                me.jqEl.remove();
+                clearInterval(id);
+            }
+
+        },50)
+    }
+}

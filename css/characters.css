@@ -66,3 +66,14 @@ body.fullscreen section .container #stage {
     bottom:118px;
     right: 500px;
 }
+
+.lvl-btns {
+    position: absolute;
+    right:0;
+    top:0;
+    width: 90px;
+}
+
+.lvl-btns .btn {
+    margin-top: 5px;
+}

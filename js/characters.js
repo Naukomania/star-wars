@@ -1,7 +1,7 @@
 /**
  * @var string id идентификатор html-контейнера сцены
  */
-function Stage (id) {
+ function Stage (id) {
     this.jqEl=$('#'+id);
     this.rightBar = new RightBar(this);
     this.hero=null;
@@ -60,12 +60,22 @@ function Shooter (settings) {
 
     this.shoot = function(){ // хранить сцену в свойстве
         shoots++;
-        var bullet = new Bullet({posX: me.posX+250, posY:me.posY+130}, "shoot" + shoots);
+        var bullet = new Bullet({posX: me.posX+120, posY:me.posY+55}, "shoot" + shoots, me);
         stage.addPerson(bullet);
+        me.bullets["shoot" + shoots]=bullet;
         bullet.updatePosition();
-        bullet.startHorisontAnimation({leftX:me.posX, rightX:900});
-        console.log('shoot');
+        bullet.startHorisontAnimation({leftX:me.posX, rightX:900+me.posX});
     }
+    this.checkBullets = function (goalOffset){
+        $.each(me.bullets, function(index, bullet){
+            if(realCompare(bullet.jqEl.offset(),goalOffset)){
+                console.log('check');
+                return true;
+            } 
+        });
+        return false;
+    };
+    this.bullets = {}
     this.__proto__ = new Person(this);
     this.registerKeys=function() {
         $(document).on('keydown', function(e){
@@ -99,7 +109,23 @@ function C3po (settings) {
     this.__proto__ = new Person(this);
 
 }
+function Defender (settings) {
+    this.imgSrc='images/defender.png';
+    this.id='defender';
+    this.posX = settings.posX ? settings.posX : 0;
+    this.posY = settings.posY ? settings.posY : 0;
+    this.__proto__ = new Person(this);
+    var me = this;
 
+
+    this.teleport = function(minX, maxX, minY, maxY){ 
+            me.jqEl.fadeOut(500, 'swing', function(){
+            me.posX=Math.random()*(maxX - minX)+minX;
+            me.posY=Math.random()*(maxY - minY)+minY;
+            me.jqEl.fadeIn();
+        });
+    }
+}
 function Darklord (settings, id) {
     this.imgSrc='images/darklord.png';
     this.id='darklord';
@@ -113,7 +139,6 @@ function Darklord (settings, id) {
     this.startVetricalAnimation = function(settings){
         var direction = 1; 
         setInterval(function(){
-            console.log(this.posY);
             if(direction == 1){
                 me.posY += 10;
             } else{
@@ -188,7 +213,7 @@ function RightBar(stage) {
     if (localStorage['sword']) {
         this.items['sword'] = parseInt(localStorage['sword']);
     }
-     if (localStorage['keyVal']) {
+    if (localStorage['keyVal']) {
         this.items['keyVal'] = parseInt(localStorage['keyVal']);
     }
     this.update();
@@ -233,7 +258,7 @@ function compare(offset1, offset2) {
     return false;
 }
 
-function Bullet (settings, id){
+function Bullet (settings, id, shooter){
     this.imgSrc='images/bullet.png';
     this.id='bullet';
     this.posX = settings.posX ? settings.posX : 0;
@@ -246,7 +271,6 @@ function Bullet (settings, id){
     this.startHorisontAnimation = function(settings){
         var direction = 1; 
         var id = setInterval(function(){
-            console.log(me.posX);
             me.updatePosition();
             if(direction == 1){
                 me.posX += 10;
@@ -259,9 +283,19 @@ function Bullet (settings, id){
             if (me.posX>settings.rightX) {
                 direction = 0;
                 me.jqEl.remove();
+                delete shooter.bullets[me.id];
                 clearInterval(id);
             }
 
         },50)
     }
+}
+
+function realCompare(offset1, offset2){
+    if (offset1.top>offset2.top && offset1.top<offset2.top+100) {
+        if (offset1.left>offset2.left && offset1.left<offset2.left+50){
+            return true;
+        } 
+    }
+    return false;
 }

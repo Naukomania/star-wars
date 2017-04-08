@@ -118,10 +118,22 @@
             stage.reload();
             intervalId = setInterval(function(){
                 shooter.updatePosition();
+                defender.updatePosition();
+                if(shooter.checkBullets(defender.jqEl.offset())){
+                    console.log('Попадание');
+                }
             }, 50)
-            var shooter = new Shooter({posX: 100, posY:250}); 
+            var teleportIntervalId= setInterval(function(){
+                defender.teleport(500,900,0,400);
+            },3000)
+
+            var shooter = new Shooter({posX: 100, posY:250}),
+                defender = new Defender({posX:500, posY:250}); 
             stage.addPerson(shooter);
+            shooter.jqEl.css('height', '150px');
             shooter.registerKeys();
+            stage.addPerson(defender);
+            defender.jqEl.css('height', '150px');
 
         }
         $( document ).ready(function() {

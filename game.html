@@ -12,22 +12,37 @@
 <body class="fullscreen">
     <section class="">
         <div class="container">
-            <div class="start-game">
-                <div class="btn btn-success btn-lg">Start</div>
+            <div id="stage"></div>
+            <div id="menu">   
+                <div class="row">
+                <div class="col-md-3 col-md-offset-3 level-item">
+                        <a href="#" onclick="level1();"><img src="images/level1.png" alt=""></a>
+                    </div>
+                    <div class="col-md-6 level-item">
+                        <a href="#" onclick="level2();"><img src="images/level2.png" alt=""></a>
+                    </div>
+                    <div class="col-md-3 col-md-offset-3 level-item"> 
+                        <a href="#" onclick="level3();"><img src="images/level3.png" alt=""></a>
+                    </div>
+                    <div class="col-md-6 level-item">
+                        <a href="#" onclick="level4();"><img src="images/level4.png" alt=""></a>
+                    </div>
+                </div>       
             </div>
-            <div id="stage">
-            </div>
-            <div class="lvl-btns">
-                <a href="#" class="btn btn-success btn-lg" onclick="level1();">level1</a>
-                <a href="#" class="btn btn-success btn-lg" onclick="level2();">level2</a>
-                <a href="#" class="btn btn-success btn-lg" onclick="level3();">level3</a>
-                <a href="#" class="btn btn-success btn-lg" onclick="level4();">level4</a>
-            </div>  
         </div>
     </section>
     <script type="text/javascript">
         var stage, intervalId;
+        function showMenu(){
+            stage.jqEl.hide();
+            $('#menu').show();
+        }
+        function hideMenu(){
+            $('#menu').hide();
+            stage.jqEl.show();
+        }
         function level1(){
+            hideMenu();
             stage.reload();
             clearInterval(intervalId);
             key = new Key(stage);
@@ -43,7 +58,7 @@
                     if (stage.rightBar.keyExist('keyVal')){
                         door.open();
                         setTimeout(function(){
-                            level2();
+                            showMenu();
                         }, 1500); 
                     }             
                 }
@@ -58,6 +73,7 @@
             },50);
         };
         function level2(){
+            hideMenu();
             clearInterval(intervalId);
             stage.reload();
             key = new Key(stage);
@@ -68,15 +84,16 @@
             intervalId = setInterval(function(){
                 luke.updatePosition();
                 if (compare(luke.jqEl.offset(), door.jqEl.offset())) {
-                 level3();
-             }
-             if (compare(luke.jqEl.offset(), key.jqEl.offset())) {
+                   showMenu();
+               }
+               if (compare(luke.jqEl.offset(), key.jqEl.offset())) {
                 stage.rightBar.addItem('keyVal');
                 key.jqEl.remove();
             }
         },50);
         };
         function level3(){
+            hideMenu();
             clearInterval(intervalId);
             stage.reload();
             hero = new Luke({posX:200, posY:300}),
@@ -108,42 +125,48 @@
                 if (compare(hero.jqEl.offset(), door.jqEl.offset())){
                     if (stage.rightBar.keyExist('keyVal')) {
                         door.open();
-                        location='game.html';
+                        showMenu(   );
                     }
                 }
             },10);
         }
         function level4(){
+            hideMenu();
             clearInterval(intervalId);
             stage.reload();
             intervalId = setInterval(function(){
                 shooter.updatePosition();
                 defender.updatePosition();
-                if(shooter.checkBullets(defender.jqEl.offset())){
-                    console.log('Попадание');
-                }
+                defender2.updatePosition();
+                defender3.updatePosition();
+                shooter.checkBullets(defender);
+                shooter.checkBullets(defender2);
+                shooter.checkBullets(defender3);
             }, 50)
             var teleportIntervalId= setInterval(function(){
                 defender.teleport(500,900,0,400);
+                defender2.teleport(500,900,0,400);
+                defender3.teleport(500,900,0,400);
             },3000)
 
             var shooter = new Shooter({posX: 100, posY:250}),
-                defender = new Defender({posX:500, posY:250}); 
+            defender = new Defender({posX:500, posY:250}),
+            defender2 = new Defender({posX:700, posY:250}, 'defender2'),
+            defender3 = new Defender({posX:900, posY:250}, 'defender3'); 
             stage.addPerson(shooter);
             shooter.jqEl.css('height', '150px');
             shooter.registerKeys();
             stage.addPerson(defender);
+            stage.addPerson(defender2);
+            stage.addPerson(defender3);
             defender.jqEl.css('height', '150px');
+            defender2.jqEl.css('height', '150px');
+            defender3.jqEl.css('height', '150px');
 
         }
         $( document ).ready(function() {
             stage= new Stage('stage');
-            
-
-            $('.start-game .btn').on('click', function(){
-                level1();
-                $(this).remove()
-            });
+            showMenu();
         });      
     </script>
 </body>

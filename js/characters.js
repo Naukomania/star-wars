@@ -66,10 +66,10 @@ function Shooter (settings) {
         bullet.updatePosition();
         bullet.startHorisontAnimation({leftX:me.posX, rightX:900+me.posX});
     }
-    this.checkBullets = function (goalOffset){
+    this.checkBullets = function (goal){
         $.each(me.bullets, function(index, bullet){
-            if(realCompare(bullet.jqEl.offset(),goalOffset)){
-                console.log('check');
+            if(realCompare(bullet.jqEl.offset(),goal.jqEl.offset())){
+                goal.burst();
                 return true;
             } 
         });
@@ -109,9 +109,12 @@ function C3po (settings) {
     this.__proto__ = new Person(this);
 
 }
-function Defender (settings) {
+function Defender (settings, id) {
     this.imgSrc='images/defender.png';
     this.id='defender';
+    if (id){
+        this.id=id;
+    }
     this.posX = settings.posX ? settings.posX : 0;
     this.posY = settings.posY ? settings.posY : 0;
     this.__proto__ = new Person(this);
@@ -119,11 +122,27 @@ function Defender (settings) {
 
 
     this.teleport = function(minX, maxX, minY, maxY){ 
-            me.jqEl.fadeOut(500, 'swing', function(){
+        me.jqEl.fadeOut(500, 'swing', function(){
             me.posX=Math.random()*(maxX - minX)+minX;
             me.posY=Math.random()*(maxY - minY)+minY;
             me.jqEl.fadeIn();
         });
+    }
+
+    this.burst = function (){
+        me.jqEl.attr('src', 'images/defender1.png');  
+        setTimeout(function(){
+            me.jqEl.attr('src', 'images/defender2.png');
+            setTimeout(function(){
+                me.jqEl.attr('src', 'images/defender3.png');
+                me.jqEl.fadeOut('slow', 'swing', function(){
+                    me.jqEl.remove();
+                });
+                
+            },300);
+
+        },300);
+
     }
 }
 function Darklord (settings, id) {
@@ -299,3 +318,4 @@ function realCompare(offset1, offset2){
     }
     return false;
 }
+

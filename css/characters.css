@@ -77,3 +77,10 @@ body.fullscreen section .container #stage {
 .lvl-btns .btn {
     margin-top: 5px;
 }
+
+.level-item {
+    height: 260px;
+    background-color: #eee;
+    margin : 20px;
+}
+

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+   <html lang="en">
+   <head>
+       <meta charset="UTF-8">
+       <title>Document</title>
+       <script src="vendor/jquery/jquery.js"></script>
+       <script src='js/characters.js'></script>
+       <link rel="stylesheet" href="css/characters.css">
+   </head>
+   <body>
+   <div id="stage"></div>
+       <script>
+           $(document).ready(function(){
+                var stage = new Stage('stage'),
+                defender = new Defender({});
+                stage.addPerson(defender);
+                defender.updatePosition();
+                defender.burst();
+           })
+       </script>
+   </body>
+   </html>   
